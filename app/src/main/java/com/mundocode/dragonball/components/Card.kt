@@ -1,6 +1,9 @@
 package com.mundocode.dragonball.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -35,14 +38,21 @@ fun Card(text: String, image: String, navController: NavController, modifier: Mo
                 modifier = Modifier
                     .size(200.dp)
                     .align(Alignment.CenterHorizontally)
-                    .padding(vertical = 16.dp),
+                    .padding(vertical = 32.dp),
                 color = Color.Green,
                 trackColor = Color.Magenta
             )
             Texto(text)
         } else {
-            AsyncImage(image)
-            Texto(text)
+
+            Column(
+                modifier = Modifier,
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                AsyncImage(image)
+                Texto(text)
+            }
         }
     }
 }
@@ -52,7 +62,7 @@ fun Card(text: String, image: String, navController: NavController, modifier: Mo
 fun Texto(text: String) {
     Text(
         modifier = Modifier
-            .padding(top = 8.dp).fillMaxWidth(),
+            .padding(16.dp).fillMaxWidth(),
         text = text,
         fontWeight = FontWeight.Bold,
         textAlign = TextAlign.Center,
@@ -75,10 +85,8 @@ private fun AsyncImage(url: String) {
     Image(
         modifier = Modifier
             .width(300.dp)
-            .height(400.dp)
-            .padding(top = 16.dp),
+            .height(400.dp),
         painter = painter,
-        contentDescription = null,
-        alignment = Alignment.Center
+        contentDescription = null
     )
 }
