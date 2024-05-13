@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.mundocode.dragonball.views.InicioView
+import com.mundocode.dragonball.views.PlanetsView
 import com.mundocode.dragonball.views.PokemonDetailsScreen
 
 @Composable
@@ -20,5 +21,6 @@ fun NavManager() {
                 PokemonDetailsScreen(navController = navController, id = id)
             }
         }
+        composable("planets") { PlanetsView(navController) }
     }
 }

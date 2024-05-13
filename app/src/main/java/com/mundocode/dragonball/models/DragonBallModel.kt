@@ -4,7 +4,12 @@ import com.google.gson.annotations.SerializedName
 
 data class DragonBallModel(
     @SerializedName("items")
-    val ListItems: List<DragonBallLista>
+    val ListItems: List<DragonBallLista>,
+)
+
+data class DragonBallPlanets(
+    @SerializedName("items")
+    val ListPlanets: List<planets>
 )
 
 data class DragonBallLista (
@@ -69,4 +74,18 @@ data class transformations (
     val ki: String,
     @SerializedName("image")
     val image: String,
+)
+
+// Planets
+data class planets (
+    @SerializedName("id")
+    val id: Int,
+    @SerializedName("name")
+    val name: String,
+    @SerializedName("isDestroyed")
+    val isDestroyed: Boolean,
+    @SerializedName("description")
+    val description: String,
+    @SerializedName("image")
+    val image: String
 )

@@ -1,6 +1,7 @@
 package com.mundocode.dragonball.network
 
 import com.mundocode.dragonball.models.DragonBallModel
+import com.mundocode.dragonball.models.DragonBallPlanets
 import com.mundocode.dragonball.models.SingleDragonBallLista
 import retrofit2.Response
 import retrofit2.http.GET
@@ -15,5 +16,8 @@ interface ApiDragonBall {
     suspend fun obtenerPersonaje(
         @Path("id") id: Int
     ): Response<SingleDragonBallLista>
+
+    @GET("planets?page=1&limit=20")
+    suspend fun obtenerPlanetas(): Response<DragonBallPlanets>
 
 }

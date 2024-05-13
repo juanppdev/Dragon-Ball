@@ -1,18 +1,23 @@
 package com.mundocode.dragonball.views
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.ExperimentalFoundationApi
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -22,43 +27,42 @@ import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import com.mundocode.dragonball.viewmodels.PokemonListViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
 import com.mundocode.dragonball.R
-import com.mundocode.dragonball.components.Card
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.foundation.pager.*
-import androidx.compose.runtime.mutableIntStateOf
+import com.mundocode.dragonball.viewmodels.PokemonListViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun InicioView(
+fun PlanetsView(
     navController: NavController,
     viewModel: PokemonListViewModel = viewModel()
 ) {
-    val dragonList by viewModel.dragonList.collectAsState()
     val isLoading = viewModel.isLoading.collectAsState()
     val errorMessage = viewModel.errorMessage.collectAsState()
+    val planetsList by viewModel.planetList.collectAsState()
 
-    LaunchedEffect(dragonList) {
-        viewModel.getPokemonList()
+    LaunchedEffect(planetsList) {
+        viewModel.getPlanets()
     }
 
     val scaffoldState = remember { SnackbarHostState() }
@@ -86,7 +90,7 @@ fun InicioView(
                     }
                 )
             },
-            bottomBar = { MyBottomNavigation(navController) }
+            bottomBar = { Planetas(navController) }
         ) {
             // Aqui va el contenido
             if (errorMessage.value != null) {
@@ -118,25 +122,12 @@ fun InicioView(
                             .alpha(0.3f)
                     )
 
-                    val pagerState = rememberPagerState(pageCount = { 58 })
-
-                    HorizontalPager(
-                        state = pagerState,
-                        modifier = Modifier.fillMaxSize()
-                    ) { page ->
-                        // Accede al elemento correspondiente en dragonList.ListItems
-                        val item = dragonList?.ListItems?.getOrNull(page)
-
-                        // Verifica si el elemento no es nulo antes de crear el Text
-                        item?.let {
-                            Card(
-                                it.name,
-                                it.image,
-                                navController,
-                                modifier = Modifier
-                                    .clickable { navController.navigate("characters/${it.id}") }
-                                    .padding(32.dp)
-                            )
+                    LazyVerticalGrid(columns = GridCells.Fixed(1)) {
+                        planetsList?.ListPlanets?.let { it ->
+                            items(it.size) {
+                                AsyncImage(url = planetsList!!.ListPlanets[it].image)
+                                Log.d("Juan", planetsList!!.ListPlanets[it].name)
+                            }
                         }
                     }
 
@@ -146,29 +137,38 @@ fun InicioView(
     }
 }
 
+
 @Composable
-@OptIn(ExperimentalMaterial3Api::class)
-fun MyTopAppBar() {
-    TopAppBar(
-        title = { Text(text = "Dragon Ball") },
-        colors = TopAppBarDefaults.topAppBarColors(
-            titleContentColor = Color.White,
-            containerColor = Color.Red
-        ),
+private fun AsyncImage(url: String) {
+    val painter: Painter = // Optionally, you can apply transformations
+        rememberAsyncImagePainter(
+            ImageRequest.Builder(LocalContext.current).data(data = url)
+                .apply(block = fun ImageRequest.Builder.() {
+                    // Optionally, you can apply transformations
+                    transformations()
+                }).build()
+        )
+
+    Image(
+        modifier = Modifier
+            .width(300.dp)
+            .height(400.dp),
+        painter = painter,
+        contentDescription = null
     )
 }
 
-
 @Composable
-fun MyBottomNavigation(navController: NavController) {
+fun Planetas(navController: NavController) {
     var index by remember {
-        mutableIntStateOf(0)
+        mutableIntStateOf(1)
     }
+
     NavigationBar(contentColor = Color.White, containerColor = Color.Red) {
-        NavigationBarItem(selected = index == 0, onClick = { index = 0 }, icon = {
+        NavigationBarItem(selected = index == 0, onClick = { navController.navigate("characters") }, icon = {
             Icon(imageVector = Icons.Default.Person, contentDescription = "Personajes")
         }, label = { Text(text = "Personajes") })
-        NavigationBarItem(selected = index == 1, onClick = { navController.navigate("planets") }, icon = {
+        NavigationBarItem(selected = index == 1, onClick = { index = 1 }, icon = {
             Icon(painterResource(id = R.drawable.planet), contentDescription = "Planetas")
         }, label = { Text(text = "Planetas") })
         NavigationBarItem(selected = index == 2, onClick = { index = 2 }, icon = {

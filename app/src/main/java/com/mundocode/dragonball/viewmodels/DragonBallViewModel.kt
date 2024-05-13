@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.mundocode.dragonball.models.DragonBallModel
+import com.mundocode.dragonball.models.DragonBallPlanets
 import com.mundocode.dragonball.models.SingleDragonBallLista
 import com.mundocode.dragonball.network.ApiDragonBall
 import com.mundocode.dragonball.network.RetrofitClient
@@ -16,6 +17,7 @@ import retrofit2.Response
 
 interface PokemonListRepositoryInterface {
     suspend fun getPokemonList(): Response<DragonBallModel>
+    suspend fun getPlanets(): Response<DragonBallPlanets>
 }
 
 class PokemonListRepository(
@@ -24,6 +26,10 @@ class PokemonListRepository(
     override suspend fun getPokemonList(): Response<DragonBallModel> {
         return apiService.obtenerPersonajes()
     }
+
+    override suspend fun getPlanets(): Response<DragonBallPlanets> {
+        return apiService.obtenerPlanetas()
+    }
 }
 
 
@@ -31,10 +37,12 @@ class PokemonListViewModel(
     private val repository: PokemonListRepositoryInterface = PokemonListRepository()
 ): ViewModel() {
     private val _pokemonList = MutableStateFlow<DragonBallModel?>(null)
+    private val _planetList = MutableStateFlow<DragonBallPlanets?>(null)
     private val _errorMessage = MutableStateFlow<String?>(null)
     private val _isLoading = MutableStateFlow(true)
 
     val dragonList: StateFlow<DragonBallModel?> get() = _pokemonList.asStateFlow()
+    val planetList: StateFlow<DragonBallPlanets?> get() = _planetList.asStateFlow()
     val errorMessage: StateFlow<String?> get() = _errorMessage.asStateFlow()
     val isLoading: StateFlow<Boolean> get() = _isLoading.asStateFlow()
 
@@ -59,6 +67,29 @@ class PokemonListViewModel(
             }
         }
     }
+
+    fun getPlanets() {
+        viewModelScope.launch {
+            _isLoading.value = true
+            val response = repository.getPlanets()
+            if (response.isSuccessful) {
+                val body = response.body()
+                if (body != null) {
+                    Log.d("Success", "$body?.size")
+                    _isLoading.value = false
+                    _planetList.value = body
+                }
+            } else {
+                val error = response.errorBody()
+                if (error != null) {
+                    Log.d("Planet List Error", error.string())
+                    _isLoading.value = false
+                    _errorMessage.value = error.string()
+                }
+            }
+        }
+    }
+
 }
 
 interface DragonDetailsRepositoryInterface {
