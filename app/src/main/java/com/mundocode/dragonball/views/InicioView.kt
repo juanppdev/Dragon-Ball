@@ -10,8 +10,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -44,6 +42,7 @@ import com.mundocode.dragonball.R
 import com.mundocode.dragonball.components.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.foundation.pager.*
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.runtime.mutableIntStateOf
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -79,9 +78,7 @@ fun InicioView(
                     hostState = scaffoldState,
                     snackbar = { data ->
                         Snackbar(
-                            snackbarData = data,
-                            containerColor = Color.LightGray,
-                            contentColor = Color.Blue
+                            snackbarData = data
                         )
                     }
                 )
@@ -153,7 +150,7 @@ fun MyTopAppBar() {
         title = { Text(text = "Dragon Ball") },
         colors = TopAppBarDefaults.topAppBarColors(
             titleContentColor = Color.White,
-            containerColor = Color.Red
+            containerColor = Color(0xFF228B22)
         ),
     )
 }
@@ -164,15 +161,31 @@ fun MyBottomNavigation(navController: NavController) {
     var index by remember {
         mutableIntStateOf(0)
     }
-    NavigationBar(contentColor = Color.White, containerColor = Color.Red) {
+    NavigationBar(containerColor = Color(0xFF228B22)) {
         NavigationBarItem(selected = index == 0, onClick = { index = 0 }, icon = {
-            Icon(imageVector = Icons.Default.Person, contentDescription = "Personajes")
-        }, label = { Text(text = "Personajes") })
-        NavigationBarItem(selected = index == 1, onClick = { navController.navigate("planets") }, icon = {
-            Icon(painterResource(id = R.drawable.planet), contentDescription = "Planetas")
-        }, label = { Text(text = "Planetas") })
+            Icon(
+                imageVector = Icons.Default.Person,
+                contentDescription = "Personajes",
+                tint = Color.White,
+                modifier = Modifier.size(50.dp)
+            )
+        }, colors = NavigationBarItemDefaults.colors(indicatorColor = Color(0xFF228B22)))
+        NavigationBarItem(
+            selected = index == 1,
+            onClick = { navController.navigate("planets") },
+            icon = {
+                Icon(
+                    painterResource(id = R.drawable.planet), contentDescription = "Planetas",
+                    tint = Color.White,
+                    modifier = Modifier.size(50.dp)
+                )
+            }, colors = NavigationBarItemDefaults.colors(indicatorColor = Color(0xFF228B22)))
         NavigationBarItem(selected = index == 2, onClick = { index = 2 }, icon = {
-            Icon(imageVector = Icons.Default.Person, contentDescription = "person")
-        }, label = { Text(text = "Person") })
+            Icon(
+                imageVector = Icons.Default.Person, contentDescription = "person",
+                tint = Color.White,
+                modifier = Modifier.size(50.dp)
+            )
+        }, colors = NavigationBarItemDefaults.colors(indicatorColor = Color(0xFF228B22)))
     }
 }

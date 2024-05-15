@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -37,7 +38,7 @@ class MainActivity : ComponentActivity() {
                             painter = painterResource(R.drawable.background), // Reemplaza con el nombre de tu imagen
                             contentDescription = "background_image",
                             contentScale = ContentScale.FillBounds,
-                            modifier = Modifier.matchParentSize()
+                            modifier = Modifier.matchParentSize().alpha(0.3f)
                         )
                         // Aquí puedes agregar otros elementos como Text o Button
                         NavManager()

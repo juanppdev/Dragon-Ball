@@ -5,7 +5,8 @@ import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -14,14 +15,17 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CardElevation
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarHost
@@ -42,7 +46,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -51,6 +55,7 @@ import coil.request.ImageRequest
 import com.mundocode.dragonball.R
 import com.mundocode.dragonball.viewmodels.PokemonListViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun PlanetsView(
@@ -70,7 +75,6 @@ fun PlanetsView(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Red)
     ) {
 
         Scaffold(
@@ -122,11 +126,23 @@ fun PlanetsView(
                             .alpha(0.3f)
                     )
 
-                    LazyVerticalGrid(columns = GridCells.Fixed(1)) {
+                    LazyVerticalGrid(columns = GridCells.Fixed(1), modifier = Modifier.padding(vertical = 110.dp)) {
                         planetsList?.ListPlanets?.let { it ->
                             items(it.size) {
-                                AsyncImage(url = planetsList!!.ListPlanets[it].image)
                                 Log.d("Juan", planetsList!!.ListPlanets[it].name)
+
+                                Card(onClick = { /*TODO*/ }, colors = CardDefaults.cardColors(
+                                    containerColor = Color.Transparent
+                                )) {
+                                    Row {
+                                        AsyncImage(url = planetsList!!.ListPlanets[it].image)
+                                        Column {
+                                            Text(text = planetsList!!.ListPlanets[it].name, color = Color.White, modifier = Modifier.padding(20.dp))
+                                            Text(text = planetsList!!.ListPlanets[it].description, color = Color.White, maxLines = 3, overflow = TextOverflow.Ellipsis)
+                                        }
+                                    }
+                                }
+
                             }
                         }
                     }
@@ -151,8 +167,9 @@ private fun AsyncImage(url: String) {
 
     Image(
         modifier = Modifier
-            .width(300.dp)
-            .height(400.dp),
+            .width(150.dp)
+            .height(150.dp)
+            .padding(vertical = 15.dp),
         painter = painter,
         contentDescription = null
     )
@@ -164,15 +181,32 @@ fun Planetas(navController: NavController) {
         mutableIntStateOf(1)
     }
 
-    NavigationBar(contentColor = Color.White, containerColor = Color.Red) {
-        NavigationBarItem(selected = index == 0, onClick = { navController.navigate("characters") }, icon = {
-            Icon(imageVector = Icons.Default.Person, contentDescription = "Personajes")
-        }, label = { Text(text = "Personajes") })
+    NavigationBar(contentColor = Color.White, containerColor = Color(0xFF228B22)) {
+        NavigationBarItem(
+            selected = index == 0,
+            onClick = { navController.navigate("characters") },
+            icon = {
+                Icon(
+                    imageVector = Icons.Default.Person, contentDescription = "Personajes",
+                    tint = Color.White,
+                    modifier = Modifier.size(50.dp)
+                )
+            },
+            colors = NavigationBarItemDefaults.colors(indicatorColor = Color(0xFF228B22))
+        )
         NavigationBarItem(selected = index == 1, onClick = { index = 1 }, icon = {
-            Icon(painterResource(id = R.drawable.planet), contentDescription = "Planetas")
-        }, label = { Text(text = "Planetas") })
+            Icon(
+                painterResource(id = R.drawable.planet), contentDescription = "Planetas",
+                tint = Color.White,
+                modifier = Modifier.size(50.dp)
+            )
+        }, colors = NavigationBarItemDefaults.colors(indicatorColor = Color(0xFF228B22)))
         NavigationBarItem(selected = index == 2, onClick = { index = 2 }, icon = {
-            Icon(imageVector = Icons.Default.Person, contentDescription = "person")
-        }, label = { Text(text = "Person") })
+            Icon(
+                imageVector = Icons.Default.Person, contentDescription = "person",
+                tint = Color.White,
+                modifier = Modifier.size(50.dp)
+            )
+        }, colors = NavigationBarItemDefaults.colors(indicatorColor = Color(0xFF228B22)))
     }
 }

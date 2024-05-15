@@ -26,9 +26,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
-import coil.transform.CircleCropTransformation
 import com.mundocode.dragonball.models.SingleDragonBallLista
-import com.mundocode.dragonball.models.transformations
 import com.mundocode.dragonball.viewmodels.MyViewModel
 import com.mundocode.dragonball.viewmodels.MyViewModelFactory
 
@@ -76,8 +74,8 @@ private fun Content(
             dragonDetails.let { details ->
                 if (details != null) {
                     Column(
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
+                        verticalArrangement = Arrangement.Top,
+                        horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
                         AsyncImage(url = details.image)
                         Text(
@@ -87,7 +85,8 @@ private fun Content(
                             text = details.name,
                             fontWeight = FontWeight.Bold,
                             textAlign = TextAlign.Center,
-                            fontSize = 24.sp
+                            fontSize = 24.sp,
+                            color = Color.White
                         )
                     }
 
