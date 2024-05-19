@@ -1,12 +1,15 @@
 package com.mundocode.dragonball.navigation
 
+import android.content.Context
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.mundocode.dragonball.views.InicioView
+import com.mundocode.dragonball.views.Music
 import com.mundocode.dragonball.views.PlanetsView
 import com.mundocode.dragonball.views.PokemonDetailsScreen
 
@@ -22,5 +25,6 @@ fun NavManager() {
             }
         }
         composable("planets") { PlanetsView(navController) }
+            composable("music") { Music(navController, context = LocalContext.current) }
     }
 }

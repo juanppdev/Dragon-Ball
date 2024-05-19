@@ -16,6 +16,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CardElevation
@@ -201,9 +202,9 @@ fun Planetas(navController: NavController) {
                 modifier = Modifier.size(50.dp)
             )
         }, colors = NavigationBarItemDefaults.colors(indicatorColor = Color(0xFF228B22)))
-        NavigationBarItem(selected = index == 2, onClick = { index = 2 }, icon = {
+        NavigationBarItem(selected = index == 2, onClick = { navController.navigate("music") }, icon = {
             Icon(
-                imageVector = Icons.Default.Person, contentDescription = "person",
+                imageVector = Icons.Default.PlayArrow, contentDescription = "person",
                 tint = Color.White,
                 modifier = Modifier.size(50.dp)
             )

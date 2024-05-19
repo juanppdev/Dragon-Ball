@@ -42,8 +42,12 @@ import com.mundocode.dragonball.R
 import com.mundocode.dragonball.components.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.foundation.pager.*
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.navigation.compose.rememberNavController
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalFoundationApi::class)
@@ -146,12 +150,13 @@ fun InicioView(
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun MyTopAppBar() {
+    val navController = rememberNavController()
     TopAppBar(
         title = { Text(text = "Dragon Ball") },
         colors = TopAppBarDefaults.topAppBarColors(
             titleContentColor = Color.White,
             containerColor = Color(0xFF228B22)
-        ),
+        )
     )
 }
 
@@ -180,9 +185,9 @@ fun MyBottomNavigation(navController: NavController) {
                     modifier = Modifier.size(50.dp)
                 )
             }, colors = NavigationBarItemDefaults.colors(indicatorColor = Color(0xFF228B22)))
-        NavigationBarItem(selected = index == 2, onClick = { index = 2 }, icon = {
+        NavigationBarItem(selected = index == 2, onClick = { navController.navigate("music") }, icon = {
             Icon(
-                imageVector = Icons.Default.Person, contentDescription = "person",
+                imageVector = Icons.Default.PlayArrow, contentDescription = "music",
                 tint = Color.White,
                 modifier = Modifier.size(50.dp)
             )
