@@ -89,3 +89,18 @@ data class planets (
     @SerializedName("image")
     val image: String
 )
+
+data class singlePlanets (
+    @SerializedName("id")
+    val id: Int,
+    @SerializedName("name")
+    val name: String,
+    @SerializedName("isDestroyed")
+    val isDestroyed: Boolean,
+    @SerializedName("description")
+    val description: String,
+    @SerializedName("image")
+    val image: String,
+    @SerializedName("characters")
+    val characters: List<SingleDragonBallLista>
+)

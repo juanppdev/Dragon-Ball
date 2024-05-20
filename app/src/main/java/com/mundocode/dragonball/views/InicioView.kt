@@ -123,7 +123,7 @@ fun InicioView(
 
                     HorizontalPager(
                         state = pagerState,
-                        modifier = Modifier.fillMaxSize()
+                        modifier = Modifier.fillMaxSize().padding(it)
                     ) { page ->
                         // Accede al elemento correspondiente en dragonList.ListItems
                         val item = dragonList?.ListItems?.getOrNull(page)

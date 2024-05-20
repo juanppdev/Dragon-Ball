@@ -1,16 +1,10 @@
 package com.mundocode.dragonball.views
 
 import android.annotation.SuppressLint
-import android.media.Image
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -37,19 +31,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
-import com.mundocode.dragonball.models.SingleDragonBallLista
+import com.mundocode.dragonball.models.singlePlanets
 import com.mundocode.dragonball.viewmodels.MyViewModel
 import com.mundocode.dragonball.viewmodels.MyViewModelFactory
 
 @Composable
-fun PokemonDetailsScreen(
+fun PlanetDetailsScreen(
     navController: NavController,
     id: Int
 ) {
@@ -59,11 +52,11 @@ fun PokemonDetailsScreen(
     )
 
     // MARK: - State
-    val dragonDetails by viewModel.dragonDetails.collectAsState()
+    val dragonDetails by viewModel.planetDetails.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
     val gotError by viewModel.gotError.collectAsState()
 
-    Content(
+    ContentPlanet(
         isLoading = isLoading,
         gotError = gotError,
         dragonDetails = dragonDetails,
@@ -73,10 +66,10 @@ fun PokemonDetailsScreen(
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-private fun Content(
+private fun ContentPlanet(
     isLoading: Boolean,
     gotError: Boolean,
-    dragonDetails: SingleDragonBallLista?,
+    dragonDetails: singlePlanets?,
     navController: NavController
 ) {
     Box(
@@ -98,7 +91,7 @@ private fun Content(
             Scaffold(
                 containerColor = Color.Black,
                 topBar = {
-                    MyTopAppBarCharacter(navController)
+                    MyTopAppBarPlanet(navController)
                 },
                 snackbarHost = {
                     SnackbarHost(
@@ -125,64 +118,13 @@ private fun Content(
                         ) {
                             item {
 
-                                Box(
-                                    modifier = Modifier
-                                        .padding(top = 100.dp)
-                                        .background(Color.Gray)
-                                        .fillMaxWidth()
-                                        .height(300.dp), contentAlignment = Alignment.Center
-                                ) {
-                                    AsyncImage(url = details.image, modifier = Modifier)
-                                }
                                 Text(
-                                    modifier = Modifier
-                                        .padding(top = 8.dp, start = 10.dp, end = 10.dp)
-                                        .fillMaxWidth(),
-                                    text = "Max. Power Level",
-                                    fontWeight = FontWeight.Bold,
-                                    textAlign = TextAlign.Start,
-                                    fontSize = 24.sp,
-                                    color = Color.White
+                                    text = details.name,
+                                    color = Color.White,
+                                    fontSize = 30.sp,
+                                    fontWeight = FontWeight.Bold
                                 )
-                                Text(
-                                    modifier = Modifier
-                                        .padding(top = 8.dp, start = 10.dp, end = 10.dp)
-                                        .fillMaxWidth(),
-                                    text = details.maxKi,
-                                    textAlign = TextAlign.Start,
-                                    fontSize = 24.sp,
-                                    color = Color.White
-                                )
-                                Text(
-                                    modifier = Modifier
-                                        .padding(top = 8.dp, start = 10.dp, end = 10.dp)
-                                        .fillMaxWidth(),
-                                    text = "Descripcion",
-                                    fontWeight = FontWeight.Bold,
-                                    textAlign = TextAlign.Start,
-                                    fontSize = 24.sp,
-                                    color = Color.White
-                                )
-                                Text(
-                                    modifier = Modifier
-                                        .padding(top = 8.dp, start = 10.dp, end = 10.dp)
-                                        .fillMaxWidth(),
-                                    text = details.description,
-                                    textAlign = TextAlign.Start,
-                                    fontSize = 20.sp,
-                                    color = Color.White
-                                )
-                                Text(
-                                    modifier = Modifier
-                                        .padding(top = 8.dp, start = 10.dp, end = 10.dp)
-                                        .fillMaxWidth(),
-                                    text = "Planeta al que pertence",
-                                    fontWeight = FontWeight.Bold,
-                                    textAlign = TextAlign.Start,
-                                    fontSize = 24.sp,
-                                    color = Color.White
-                                )
-                                AsyncImage(url = details.originPlanet.image, modifier = Modifier.fillMaxWidth().height(250.dp).border(2.dp, Color.Red))
+
                             }
                         }
 
@@ -196,7 +138,7 @@ private fun Content(
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun MyTopAppBarCharacter(navController: NavController) {
+fun MyTopAppBarPlanet(navController: NavController) {
     TopAppBar(
         title = { Text(text = "Dragon Ball") },
         colors = TopAppBarDefaults.topAppBarColors(

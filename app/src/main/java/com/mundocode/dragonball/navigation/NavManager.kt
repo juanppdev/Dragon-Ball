@@ -10,6 +10,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.mundocode.dragonball.views.InicioView
 import com.mundocode.dragonball.views.Music
+import com.mundocode.dragonball.views.PlanetDetailsScreen
 import com.mundocode.dragonball.views.PlanetsView
 import com.mundocode.dragonball.views.PokemonDetailsScreen
 
@@ -25,6 +26,11 @@ fun NavManager() {
             }
         }
         composable("planets") { PlanetsView(navController) }
+        composable("planets/{id}", arguments = listOf(navArgument("id") { type = NavType.IntType })) {
+            it.arguments?.getInt("id")?.let { id ->
+                PlanetDetailsScreen(navController = navController, id = id)
+            }
+        }
             composable("music") { Music(navController, context = LocalContext.current) }
     }
 }

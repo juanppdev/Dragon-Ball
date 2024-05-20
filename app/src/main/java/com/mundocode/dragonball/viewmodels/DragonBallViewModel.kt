@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.mundocode.dragonball.models.DragonBallModel
 import com.mundocode.dragonball.models.DragonBallPlanets
 import com.mundocode.dragonball.models.SingleDragonBallLista
+import com.mundocode.dragonball.models.singlePlanets
 import com.mundocode.dragonball.network.ApiDragonBall
 import com.mundocode.dragonball.network.RetrofitClient
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -94,6 +95,7 @@ class PokemonListViewModel(
 
 interface DragonDetailsRepositoryInterface {
     suspend fun obtenerPersonaje(id: Int): Response<SingleDragonBallLista>
+    suspend fun obtenerPlaneta(id: Int): Response<singlePlanets>
 }
 
 class DragonDetailsRepository(
@@ -102,7 +104,13 @@ class DragonDetailsRepository(
     override suspend fun obtenerPersonaje(id: Int): Response<SingleDragonBallLista> {
         return apiService.obtenerPersonaje(id)
     }
+
+    override suspend fun obtenerPlaneta(id: Int): Response<singlePlanets> {
+        return apiService.obtenerPlaneta(id)
+    }
 }
+
+
 
 class MyViewModel(
     id: Int,
@@ -111,20 +119,23 @@ class MyViewModel(
 
     // Mutable States
     private val _dragonDetails = MutableStateFlow<SingleDragonBallLista?>(null)
+    private val _planetDetails = MutableStateFlow<singlePlanets?>(null)
     private val _isLoading = MutableStateFlow(true)
     private val _gotError = MutableStateFlow(false)
 
     // States
     val dragonDetails: StateFlow<SingleDragonBallLista?> get() = _dragonDetails.asStateFlow()
+    val planetDetails: StateFlow<singlePlanets?> get() = _planetDetails.asStateFlow()
     val isLoading: StateFlow<Boolean> get() = _isLoading.asStateFlow()
     val gotError: StateFlow<Boolean> get() = _gotError.asStateFlow()
 
     init {
         fetchDetails(id)
+        fetchDetailsPlanets(id)
     }
 
 
-    fun fetchDetails(id: Int) {
+    private fun fetchDetails(id: Int) {
 // Start in another thread
         viewModelScope.launch {
 // Loading state
@@ -145,6 +156,36 @@ class MyViewModel(
                 Log.i("Got data", "Got data")
                 _isLoading.value = false
                 _dragonDetails.value = data
+                //Log.i("Juan", data.toString())
+            } else {
+// Handle empty data
+                Log.d("Got nothing", "Got data")
+                _isLoading.value = false
+            }
+        }
+    }
+
+    private fun fetchDetailsPlanets(id: Int) {
+// Start in another thread
+        viewModelScope.launch {
+// Loading state
+            _isLoading.value = true
+            val result = repository.obtenerPlaneta(id)
+            val error = result.errorBody()
+            val data = result.body()
+
+            if (error != null || !result.isSuccessful) {
+// Handle error state
+                Log.e("Got an error", "Got an error")
+                _isLoading.value = false
+                _gotError.value = true
+                return@launch
+            }
+            if (data != null) {
+// Handle success case
+                Log.i("Got data", "Got data")
+                _isLoading.value = false
+                _planetDetails.value = data
                 //Log.i("Juan", data.toString())
             } else {
 // Handle empty data

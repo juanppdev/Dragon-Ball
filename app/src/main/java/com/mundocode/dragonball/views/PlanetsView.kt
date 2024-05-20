@@ -3,7 +3,7 @@ package com.mundocode.dragonball.views
 import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,9 +19,7 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CardElevation
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -127,7 +125,7 @@ fun PlanetsView(
                             .alpha(0.3f)
                     )
 
-                    LazyVerticalGrid(columns = GridCells.Fixed(1), modifier = Modifier.padding(vertical = 110.dp)) {
+                    LazyVerticalGrid(columns = GridCells.Fixed(1), modifier = Modifier.padding(it)) {
                         planetsList?.ListPlanets?.let { it ->
                             items(it.size) {
                                 Log.d("Juan", planetsList!!.ListPlanets[it].name)
@@ -135,7 +133,7 @@ fun PlanetsView(
                                 Card(onClick = { /*TODO*/ }, colors = CardDefaults.cardColors(
                                     containerColor = Color.Transparent
                                 )) {
-                                    Row {
+                                    Row(modifier = Modifier.clickable { navController.navigate("planets/${planetsList!!.ListPlanets[it].id}") }) {
                                         AsyncImage(url = planetsList!!.ListPlanets[it].image)
                                         Column {
                                             Text(text = planetsList!!.ListPlanets[it].name, color = Color.White, modifier = Modifier.padding(20.dp))
