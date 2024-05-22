@@ -17,9 +17,9 @@ import androidx.compose.ui.unit.sp
 import com.mundocode.dragonball.R
 
 @Composable
-fun ErrorState(modifier: Modifier = Modifier) {
+fun ErrorState() {
     Column(
-        modifier = modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {

@@ -45,7 +45,6 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.mundocode.dragonball.R
 
 @OptIn(ExperimentalPermissionsApi::class)
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun Music(
     navController: NavController,

@@ -1,13 +1,10 @@
 package com.mundocode.dragonball.views
 
-import android.annotation.SuppressLint
-import android.media.Image
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -44,6 +41,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
+import com.mundocode.dragonball.components.MyTabScreen
 import com.mundocode.dragonball.models.SingleDragonBallLista
 import com.mundocode.dragonball.viewmodels.MyViewModel
 import com.mundocode.dragonball.viewmodels.MyViewModelFactory
@@ -71,7 +69,6 @@ fun PokemonDetailsScreen(
     )
 }
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 private fun Content(
     isLoading: Boolean,
@@ -127,7 +124,6 @@ private fun Content(
 
                                 Box(
                                     modifier = Modifier
-                                        .padding(top = 100.dp)
                                         .background(Color.Gray)
                                         .fillMaxWidth()
                                         .height(300.dp), contentAlignment = Alignment.Center
@@ -183,6 +179,10 @@ private fun Content(
                                     color = Color.White
                                 )
                                 AsyncImage(url = details.originPlanet.image, modifier = Modifier.fillMaxWidth().height(250.dp).border(2.dp, Color.Red))
+
+                                details.transformations.forEach {
+                                    MyTabScreen()
+                                }
                             }
                         }
 

@@ -24,7 +24,7 @@ import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 
 @Composable
-fun Card(text: String, image: String, navController: NavController, modifier: Modifier) {
+fun Card(text: String, image: String, modifier: Modifier) {
 
     OutlinedCard(
         modifier = modifier,

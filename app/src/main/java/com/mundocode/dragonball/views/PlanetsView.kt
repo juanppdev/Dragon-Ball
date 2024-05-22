@@ -1,6 +1,5 @@
 package com.mundocode.dragonball.views
 
-import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -55,7 +54,6 @@ import com.mundocode.dragonball.R
 import com.mundocode.dragonball.viewmodels.PokemonListViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun PlanetsView(
     navController: NavController,

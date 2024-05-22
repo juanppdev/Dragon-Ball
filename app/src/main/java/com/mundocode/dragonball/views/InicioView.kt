@@ -42,14 +42,10 @@ import com.mundocode.dragonball.R
 import com.mundocode.dragonball.components.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.foundation.pager.*
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.navigation.compose.rememberNavController
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun InicioView(
@@ -133,7 +129,6 @@ fun InicioView(
                             Card(
                                 it.name,
                                 it.image,
-                                navController,
                                 modifier = Modifier
                                     .clickable { navController.navigate("characters/${it.id}") }
                                     .padding(32.dp)
@@ -150,7 +145,6 @@ fun InicioView(
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun MyTopAppBar() {
-    val navController = rememberNavController()
     TopAppBar(
         title = { Text(text = "Dragon Ball") },
         colors = TopAppBarDefaults.topAppBarColors(
