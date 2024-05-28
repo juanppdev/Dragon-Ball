@@ -20,7 +20,7 @@ A continuación, se muestra una captura de pantalla de la aplicación:
 
 
 ## Instalación
-Clona este repositorio: git clone [https://github.com/juanppdev/Dragon-Ball.git](https://github.com/juanppdev/Dragon-Ball.git)
+Clona este repositorio: git clone https://github.com/juanppdev/Dragon-Ball.git
 Abre el proyecto en Android Studio.
 Ejecuta la aplicación en un emulador o dispositivo físico.
 
