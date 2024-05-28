@@ -13,10 +13,7 @@ La aplicación Dragon Ball es una herramienta para explorar información sobre p
 ## Capturas de Pantalla
 A continuación, se muestra una captura de pantalla de la aplicación:
 
-![Pantalla Personajes](https://github.com/juanppdev/Dragon-Ball/assets/81490579/96f78b14-8476-4e9b-9aab-a48811dab83a)
-![Panatalla Caracteristicas](https://github.com/juanppdev/Dragon-Ball/assets/81490579/2ee9dbb1-4be6-4121-b6ae-ec14be85e89d)
-![Pantalla Planetas](https://github.com/juanppdev/Dragon-Ball/assets/81490579/bfa7e3dc-521e-47cd-b307-21dcbad6e316)
-![Pantalla Musica](https://github.com/juanppdev/Dragon-Ball/assets/81490579/4b024a42-578f-465c-b1a4-4bd41ff53150)
+https://github.com/juanppdev/Dragon-Ball/assets/81490579/7a14d370-c6b8-4b77-b097-7f6c4e29e153
 
 
 ## Instalación
