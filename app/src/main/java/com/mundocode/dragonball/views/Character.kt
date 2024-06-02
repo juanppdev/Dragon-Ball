@@ -178,11 +178,18 @@ private fun Content(
                                     fontSize = 24.sp,
                                     color = Color.White
                                 )
-                                AsyncImage(url = details.originPlanet.image, modifier = Modifier.fillMaxWidth().height(250.dp).border(2.dp, Color.Red))
+                                AsyncImage(url = details.originPlanet.image, modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(250.dp)
+                                    .border(2.dp, Color.Red))
 
-                                details.transformations.forEach {
-                                    MyTabScreen()
+                                // MASK: Transformations
+                                if(details.transformations.size == 0) {
+                                    Text(text = "No Tiene Transformaciones", color = Color.White, modifier = Modifier)
+                                } else {
+                                    MyTabScreen(details.transformations)
                                 }
+
                             }
                         }
 
@@ -232,3 +239,4 @@ private fun AsyncImage(url: String, modifier: Modifier) {
         contentDescription = null
     )
 }
+
