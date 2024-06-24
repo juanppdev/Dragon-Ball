@@ -4,6 +4,8 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
@@ -28,6 +30,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -104,12 +107,17 @@ private fun ContentPlanet(
                         ) {
                             item {
 
+                                AsyncImage(url = details.image, modifier = Modifier.fillMaxWidth().height(350
+                                    .dp))
+
                                 Text(
                                     text = details.name,
                                     color = Color.White,
                                     fontSize = 30.sp,
                                     fontWeight = FontWeight.Bold
                                 )
+
+                                Text(text = details.description, color = Color.White, fontSize = 20.sp, modifier = Modifier.padding(vertical = 20.dp))
 
                                 details.characters.forEach {
                                     Text(

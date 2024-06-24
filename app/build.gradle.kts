@@ -86,7 +86,7 @@ dependencies {
 
     implementation(libs.androidx.foundation)
 
-    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.0-rc01")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.2")
 
     // Room
     implementation("androidx.room:room-ktx:2.6.1")

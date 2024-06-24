@@ -10,7 +10,7 @@ import retrofit2.http.Path
 
 interface ApiDragonBall {
 
-    @GET("characters?page=1&limit=100")
+    @GET("characters?page=1&limit=20")
     suspend fun obtenerPersonajes(): Response<DragonBallModel>
 
     @GET("characters/{id}")
