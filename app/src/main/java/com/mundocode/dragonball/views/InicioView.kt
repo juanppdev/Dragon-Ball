@@ -5,6 +5,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -44,6 +45,10 @@ import androidx.compose.foundation.pager.*
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.unit.sp
+import com.mundocode.dragonball.utils.LetterColors
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -140,19 +145,38 @@ fun InicioView(
         }
     }
 }
+@Composable
+fun ColoredText(letter: String, color: Color, fontFamily: FontFamily) {
+    Text(
+        text = letter,
+        style = androidx.compose.ui.text.TextStyle(
+            color = color,
+            fontFamily = fontFamily,
+            fontSize = 40.sp
+        )
+    )
+}
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun MyTopAppBar() {
+    val customFont = FontFamily(
+        Font(resId = R.font.saiyan_sans)
+    )
     TopAppBar(
-        title = { Text(text = "Dragon Ball") },
+        title = {
+            Row {
+                LetterColors.lettersWithColors.forEach { (letter, color) ->
+                    ColoredText(letter, color, customFont)
+                }
+            }
+        },
         colors = TopAppBarDefaults.topAppBarColors(
             titleContentColor = Color.White,
             containerColor = Color(0xFF228B22)
         )
     )
 }
-
 
 @Composable
 fun MyBottomNavigation(navController: NavController) {
