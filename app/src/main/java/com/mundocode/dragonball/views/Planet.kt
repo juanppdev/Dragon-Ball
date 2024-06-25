@@ -1,17 +1,7 @@
 import android.annotation.SuppressLint
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Snackbar
-import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -24,10 +14,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
 import com.mundocode.dragonball.components.MyTopAppBar
 import com.mundocode.dragonball.models.singlePlanets
 import com.mundocode.dragonball.viewmodels.MyViewModel
 import com.mundocode.dragonball.viewmodels.MyViewModelFactory
+
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -48,53 +40,7 @@ fun PlanetDetailsScreen(
             SnackbarHost(
                 hostState = scaffoldState,
                 snackbar = { data ->
-                    Snackbar(
-                        snackbarData = data
-                    )
-<<<<<<< HEAD
-                },
-                bottomBar = { MyBottomNavigation(navController) }
-            ) {
-
-                dragonDetails.let { details ->
-                    if (details != null) {
-
-                        LazyColumn(
-                            verticalArrangement = Arrangement.Top,
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .padding(it)
-                        ) {
-                            item {
-
-                                AsyncImage(url = details.image, modifier = Modifier.fillMaxWidth().height(350
-                                    .dp))
-
-                                Text(
-                                    text = details.name,
-                                    color = Color.White,
-                                    fontSize = 30.sp,
-                                    fontWeight = FontWeight.Bold
-                                )
-
-                                Text(text = details.description, color = Color.White, fontSize = 20.sp, modifier = Modifier.padding(vertical = 20.dp))
-
-                                details.characters.forEach {
-                                    Text(
-                                        text = it.name,
-                                        color = Color.White,
-                                        fontSize = 20.sp,
-                                        fontWeight = FontWeight.Bold
-                                    )
-                                }
-
-                            }
-                        }
-
-                    }
-=======
->>>>>>> bottombarchange
+                    Snackbar(snackbarData = data)
                 }
             )
         },
@@ -122,19 +68,34 @@ private fun ContentPlanet(
             LazyColumn(
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier
-                    .fillMaxSize()
+                modifier = Modifier.fillMaxSize()
             ) {
                 item {
+                    AsyncImage(
+                        model = details.image,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(350.dp)
+                    )
+
                     Text(
                         text = details.name,
                         color = Color.White,
                         fontSize = 30.sp,
                         fontWeight = FontWeight.Bold
                     )
-                    details.characters.forEach {
+
+                    Text(
+                        text = details.description,
+                        color = Color.White,
+                        fontSize = 20.sp,
+                        modifier = Modifier.padding(vertical = 20.dp)
+                    )
+
+                    details.characters.forEach { character ->
                         Text(
-                            text = it.name,
+                            text = character.name,
                             color = Color.White,
                             fontSize = 20.sp,
                             fontWeight = FontWeight.Bold
