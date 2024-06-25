@@ -16,15 +16,15 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
-interface PokemonListRepositoryInterface {
-    suspend fun getPokemonList(): Response<DragonBallModel>
+interface DBZListRepositoryInterface {
+    suspend fun getSaiyanList(): Response<DragonBallModel>
     suspend fun getPlanets(): Response<DragonBallPlanets>
 }
 
-class PokemonListRepository(
+class DBZListRepository(
     private val apiService: ApiDragonBall = RetrofitClient.retrofit
-): PokemonListRepositoryInterface {
-    override suspend fun getPokemonList(): Response<DragonBallModel> {
+): DBZListRepositoryInterface {
+    override suspend fun getSaiyanList(): Response<DragonBallModel> {
         return apiService.obtenerPersonajes()
     }
 
@@ -33,38 +33,39 @@ class PokemonListRepository(
     }
 }
 
-
-class PokemonListViewModel(
-    private val repository: PokemonListRepositoryInterface = PokemonListRepository()
+class DragonBallListViewModel(
+    private val repository: DBZListRepositoryInterface = DBZListRepository()
 ): ViewModel() {
-    private val _pokemonList = MutableStateFlow<DragonBallModel?>(null)
+    private val _saiyanList = MutableStateFlow<DragonBallModel?>(null)
     private val _planetList = MutableStateFlow<DragonBallPlanets?>(null)
     private val _errorMessage = MutableStateFlow<String?>(null)
     private val _isLoading = MutableStateFlow(true)
 
-    val dragonList: StateFlow<DragonBallModel?> get() = _pokemonList.asStateFlow()
+    val saiyanList: StateFlow<DragonBallModel?> get() = _saiyanList.asStateFlow()
     val planetList: StateFlow<DragonBallPlanets?> get() = _planetList.asStateFlow()
     val errorMessage: StateFlow<String?> get() = _errorMessage.asStateFlow()
     val isLoading: StateFlow<Boolean> get() = _isLoading.asStateFlow()
 
-    fun getPokemonList() {
+    init {
+        getSaiyanList()
+    }
+
+    fun getSaiyanList() {
         viewModelScope.launch {
             _isLoading.value = true
-            val response = repository.getPokemonList()
+            val response = repository.getSaiyanList()
             if(response.isSuccessful) {
                 val body = response.body()
                 if(body != null) {
-                    Log.d("Success", "$body?.size")
-                    _isLoading.value = false
-                    _pokemonList.value = body
+                    Log.d("Success", "${body.ListItems.size}")
+                    _saiyanList.value = body
                 }
+                _isLoading.value = false
             } else {
-                val error = response.errorBody()
-                if(error != null) {
-                    Log.d("Pokemon List Error", error.string())
-                    _isLoading.value = false
-                    _errorMessage.value = error.string()
-                }
+                val error = response.errorBody()?.string()
+                Log.d("Saiyan List Error", error ?: "Unknown error")
+                _errorMessage.value = error
+                _isLoading.value = false
             }
         }
     }
@@ -76,22 +77,22 @@ class PokemonListViewModel(
             if (response.isSuccessful) {
                 val body = response.body()
                 if (body != null) {
-                    Log.d("Success", "$body?.size")
-                    _isLoading.value = false
+                    Log.d("Success", "${body.ListPlanets.size}")
                     _planetList.value = body
                 }
+                _isLoading.value = false
             } else {
-                val error = response.errorBody()
-                if (error != null) {
-                    Log.d("Planet List Error", error.string())
-                    _isLoading.value = false
-                    _errorMessage.value = error.string()
-                }
+                val error = response.errorBody()?.string()
+                Log.d("Planet List Error", error ?: "Unknown error")
+                _errorMessage.value = error
+                _isLoading.value = false
             }
         }
     }
-
 }
+
+
+
 
 interface DragonDetailsRepositoryInterface {
     suspend fun obtenerPersonaje(id: Int): Response<SingleDragonBallLista>
