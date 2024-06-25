@@ -1,5 +1,6 @@
 package com.mundocode.dragonball.views
 
+import MyBottomAppNavigation
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -47,7 +48,7 @@ import com.mundocode.dragonball.viewmodels.MyViewModel
 import com.mundocode.dragonball.viewmodels.MyViewModelFactory
 
 @Composable
-fun PokemonDetailsScreen(
+fun SaiyanDetailsScreen(
     navController: NavController,
     id: Int
 ) {
@@ -56,7 +57,6 @@ fun PokemonDetailsScreen(
         factory = MyViewModelFactory(id)
     )
 
-    // MARK: - State
     val dragonDetails by viewModel.dragonDetails.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
     val gotError by viewModel.gotError.collectAsState()
@@ -107,7 +107,7 @@ private fun Content(
                         }
                     )
                 },
-                bottomBar = { MyBottomNavigation(navController) }
+                bottomBar = { MyBottomAppNavigation(navController, selectedIndex = 0) }
             ) {
 
                 dragonDetails.let { details ->
